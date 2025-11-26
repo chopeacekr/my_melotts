@@ -1,62 +1,62 @@
-<div align="center">
-  <div>&nbsp;</div>
-  <img src="logo.png" width="300"/> <br>
-  <a href="https://trendshift.io/repositories/8133" target="_blank"><img src="https://trendshift.io/api/badge/repositories/8133" alt="myshell-ai%2FMeloTTS | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-</div>
+# 🎤 MeloTTS
+## 📦 설치
 
-## Introduction
-MeloTTS is a **high-quality multi-lingual** text-to-speech library by [MIT](https://www.mit.edu/) and [MyShell.ai](https://myshell.ai). Supported languages include:
-
-| Language | Example |
-| --- | --- |
-| English (American)    | [Link](https://myshell-public-repo-host.s3.amazonaws.com/myshellttsbase/examples/en/EN-US/speed_1.0/sent_000.wav) |
-| English (British)     | [Link](https://myshell-public-repo-host.s3.amazonaws.com/myshellttsbase/examples/en/EN-BR/speed_1.0/sent_000.wav) |
-| English (Indian)      | [Link](https://myshell-public-repo-host.s3.amazonaws.com/myshellttsbase/examples/en/EN_INDIA/speed_1.0/sent_000.wav) |
-| English (Australian)  | [Link](https://myshell-public-repo-host.s3.amazonaws.com/myshellttsbase/examples/en/EN-AU/speed_1.0/sent_000.wav) |
-| English (Default)     | [Link](https://myshell-public-repo-host.s3.amazonaws.com/myshellttsbase/examples/en/EN-Default/speed_1.0/sent_000.wav) |
-| Spanish               | [Link](https://myshell-public-repo-host.s3.amazonaws.com/myshellttsbase/examples/es/ES/speed_1.0/sent_000.wav) |
-| French                | [Link](https://myshell-public-repo-host.s3.amazonaws.com/myshellttsbase/examples/fr/FR/speed_1.0/sent_000.wav) |
-| Chinese (mix EN)      | [Link](https://myshell-public-repo-host.s3.amazonaws.com/myshellttsbase/examples/zh/ZH/speed_1.0/sent_008.wav) |
-| Japanese              | [Link](https://myshell-public-repo-host.s3.amazonaws.com/myshellttsbase/examples/jp/JP/speed_1.0/sent_000.wav) |
-| Korean                | [Link](https://myshell-public-repo-host.s3.amazonaws.com/myshellttsbase/examples/kr/KR/speed_1.0/sent_000.wav) |
-
-Some other features include:
-- The Chinese speaker supports `mixed Chinese and English`.
-- Fast enough for `CPU real-time inference`.
-
-## Usage
-- [Use without Installation](docs/quick_use.md)
-- [Install and Use Locally](docs/install.md)
-- [Training on Custom Dataset](docs/training.md)
-
-The Python API and model cards can be found in [this repo](https://github.com/myshell-ai/MeloTTS/blob/main/docs/install.md#python-api) or on [HuggingFace](https://huggingface.co/myshell-ai).
-
-**Contributing**
-
-If you find this work useful, please consider contributing to this repo.
-
-- Many thanks to [@fakerybakery](https://github.com/fakerybakery) for adding the Web UI and CLI part.
-
-## Authors
-
-- [Wenliang Zhao](https://wl-zhao.github.io) at Tsinghua University
-- [Xumin Yu](https://yuxumin.github.io) at Tsinghua University
-- [Zengyi Qin](https://www.qinzy.tech) (project lead) at MIT and MyShell
-
-**Citation**
-```
-@software{zhao2024melo,
-  author={Zhao, Wenliang and Yu, Xumin and Qin, Zengyi},
-  title = {MeloTTS: High-quality Multi-lingual Multi-accent Text-to-Speech},
-  url = {https://github.com/myshell-ai/MeloTTS},
-  year = {2023}
-}
+```bash
+git clone https://github.com/yourname/MeloTTS.git
+cd MeloTTS
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ```
 
-## License
+## 🚀 빠른 시작
 
-This library is under MIT License, which means it is free for both commercial and non-commercial use.
+```python
+from melotts import MeloTTS
 
-## Acknowledgements
+tts = MeloTTS("KR")
+audio = tts.speak("안녕하세요. 멜로 TTS 한국어 모델입니다.", speaker_id=0)
+tts.save_wav(audio, "sample.wav")
+```
 
-This implementation is based on [TTS](https://github.com/coqui-ai/TTS), [VITS](https://github.com/jaywalnut310/vits), [VITS2](https://github.com/daniilrobnikov/vits2) and [Bert-VITS2](https://github.com/fishaudio/Bert-VITS2). We appreciate their awesome work.
+## 1. 데이터 특성
+
+- 다국어·멀티스피커 음성 데이터 기반
+- 스튜디오 품질 중심의 고음질 음성
+- 중국어 모델은 Chinese + English code-mixing 지원
+- 한국어, 일본어, 스페인어, 프랑스어 등 다언어 포함
+
+## 2. 학습 방식 / 모델 구조
+
+- VITS / Bert-VITS2 기반 비자동회귀(non-autoregressive) 구조
+- 텍스트 인코더: BERT 계열 사용
+- 언어 ID + speaker ID 기반 멀티언어·멀티스피커 학습
+- HiFi-GAN 계열 Vocoder 적용
+- Alignment는 모델 내부에서 자동 학습(self-aligned)
+
+## 3. 사용 라이브러리
+
+- 핵심: torch, torchaudio
+- G2P:
+  - 영어: g2p_en, eng_to_ipa
+  - 중국어: pypinyin, jieba
+  - 한국어: g2pkk, jamo
+  - 일본어: mecab, unidic
+  - 유럽 언어: gruut
+- 오디오: librosa, pydub
+- 유틸: tqdm, loguru, tensorboard
+
+## 4. 모델 크기
+
+- 언어별 모델 약 200MB
+- 멀티스피커 확장·커스텀 모델은 300~500MB 수준
+
+## 5. 언어 지원
+
+- 영어(US/UK/Indian/Australian)
+- 중국어(중영 혼합)
+- 한국어
+- 일본어
+- 스페인어
+- 프랑스어
+- 일부 Fork: Malay(MS)
